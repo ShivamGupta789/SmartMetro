@@ -86,5 +86,10 @@ npm install
 npm run dev
 ```
 
+## 🔐 Security
+- Role-based authentication (Admin-only access)
+- JWT-based secure login system
+- Protected admin dashboard
+
 ### Note on Permissions
 If you encounter `sh: ... node_modules/.bin/vite: Permission denied`, run `chmod -R +x node_modules/.bin` inside that specific project's directory to grant executable permissions.
