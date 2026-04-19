@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3');
 const path = require('path');
-const dbPath = path.resolve(__dirname, 'smartrail.db');
+const dbPath = path.resolve(__dirname, 'db', 'smartrail.db');
 const db = new sqlite3.Database(dbPath);
 
 console.log('Seeding data to populate the Admin Dashboard...');
@@ -16,7 +16,9 @@ db.serialize(() => {
   db.run("BEGIN TRANSACTION");
   
   // Seed a base user
-  db.run("INSERT OR IGNORE INTO users (id, name, email, password) VALUES (1, 'Admin', 'admin@smartrail.com', 'secure')");
+  const bcrypt = require('bcryptjs');
+  const hash = bcrypt.hashSync('mumbaimetro', 10);
+  db.run(`INSERT OR IGNORE INTO users (id, name, email, password, role) VALUES (1, 'Admin', 'admin@smartrail.com', '${hash}', 'admin')`);
 
   // Add bulk tickets to reach total tickets 12,450
   // active tickets 342, revenue 452,000 approx
