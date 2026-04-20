@@ -23,8 +23,8 @@ LABEL_ORDER = ["LOW", "MEDIUM", "HIGH"]
 class CrowdProphet:
     def __init__(self):
         self.models_dir = os.path.dirname(os.path.abspath(__file__))
-        self.best_model_path = os.path.join(self.models_dir, "gradient_boosting.pkl")
-        self.mlp_model_path = os.path.join(self.models_dir, "mlp_neural_net.pkl")
+        self.best_model_path = os.path.join(self.models_dir, "gradient_boost.pkl")
+        self.mlp_model_path = os.path.join(self.models_dir, "mlp.pkl")
         self.rf_model_path = os.path.join(self.models_dir, "random_forest.pkl")
         self.scaler_path = os.path.join(self.models_dir, "scaler.pkl")
         self._set_best_model_path_from_eval()
@@ -111,8 +111,8 @@ class CrowdProphet:
             best_name = data.get("best_model_name", "")
             model_map = {
                 "Random Forest Classifier": "random_forest.pkl",
-                "Gradient Boosting Classifier": "gradient_boosting.pkl",
-                "MLP Neural Network": "mlp_neural_net.pkl",
+                "Gradient Boosting Classifier": "gradient_boost.pkl",
+                "MLP Neural Network": "mlp.pkl",
             }
             model_file = model_map.get(best_name)
             if model_file:
@@ -294,6 +294,9 @@ class CrowdProphet:
             if scale_features and self.scaler:
                 try: X = self.scaler.transform(X)
                 except: pass
+            
+            if hasattr(model, "n_features_in_") and X.shape[1] > model.n_features_in_:
+                X = X[:, :model.n_features_in_]
             
             pred = model.predict(X)[0]
             proba = model.predict_proba(X)[0]

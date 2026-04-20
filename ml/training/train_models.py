@@ -268,9 +268,9 @@ def train_all_models(data_path: str):
 
     with open("models/random_forest.pkl", "wb") as f:
         pickle.dump(rf, f)
-    with open("models/gradient_boosting.pkl", "wb") as f:
+    with open("models/gradient_boost.pkl", "wb") as f:
         pickle.dump(gb, f)
-    with open("models/mlp_neural_net.pkl", "wb") as f:
+    with open("models/mlp.pkl", "wb") as f:
         pickle.dump(mlp, f)
     with open("models/scaler.pkl", "wb") as f:
         pickle.dump(scaler, f)

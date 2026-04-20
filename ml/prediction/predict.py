@@ -49,7 +49,7 @@ STATIONS = {
 }
 
 
-def load_model(model_path: str = "models/gradient_boosting.pkl"):
+def load_model(model_path: str = "models/gradient_boost.pkl"):
     with open(model_path, "rb") as f:
         return pickle.load(f)
 
@@ -107,6 +107,9 @@ def predict_4_hours(
         ]
 
         X     = np.array([feat])
+        if hasattr(model, 'n_features_in_') and X.shape[1] > model.n_features_in_:
+            X = X[:, :model.n_features_in_]
+            
         pred  = model.predict(X)[0]
         proba = model.predict_proba(X)[0]
         label = LABEL_ORDER[pred]
